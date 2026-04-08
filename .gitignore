@@ -1,0 +1,25 @@
+# dependencies
+node_modules/
+npm-debug.log
+package-lock.json
+yarn.lock
+
+# environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# build
+dist/
+build/
+
+# Vite
+.vite/
