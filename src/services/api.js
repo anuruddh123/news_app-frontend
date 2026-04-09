@@ -1,8 +1,13 @@
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL; // Vite env
+const API_URL = import.meta.env.VITE_API_URL;
+
+if (!API_URL) {
+  console.error('❌ VITE_API_URL is undefined! Check your .env file and restart Vite');
+}
+
 const api = axios.create({
-  baseURL: `${API_URL}/api`,
+  baseURL: `${API_URL}/api`,  // /api included
   headers: { 'Content-Type': 'application/json' },
 });
 
