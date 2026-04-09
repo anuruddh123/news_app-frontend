@@ -1,6 +1,7 @@
 // Socket.io Service
 import { io } from 'socket.io-client';
 
+// Use Vite environment variable for deployment, fallback to localhost
 const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || 'http://localhost:5000';
 
 class SocketService {
@@ -11,6 +12,7 @@ class SocketService {
   connect(userId) {
     if (!this.socket) {
       this.socket = io(SOCKET_URL, {
+        transports: ['websocket'],
         reconnection: true,
         reconnectionDelay: 1000,
         reconnectionDelayMax: 5000,
@@ -19,15 +21,15 @@ class SocketService {
 
       this.socket.on('connect', () => {
         console.log('Socket connected');
-        this.socket.emit('join', userId);
+        if (userId) this.socket.emit('join', userId);
       });
 
       this.socket.on('disconnect', () => {
         console.log('Socket disconnected');
       });
 
-      this.socket.on('error', (error) => {
-        console.error('Socket error:', error);
+      this.socket.on('connect_error', (error) => {
+        console.error('Socket connection error:', error);
       });
     }
 
@@ -59,6 +61,7 @@ class SocketService {
     }
   }
 
+  // Convenience methods
   onNewAlert(callback) {
     this.on('newAlert', callback);
   }
